@@ -23,7 +23,7 @@ class get_pybind_include(object):
 
 ext_modules = [
     Extension(
-        'python_example',
+        'cga_cpp',
         ['src/main.cpp'],
         include_dirs=[
             # Path to pybind11 headers
@@ -98,10 +98,10 @@ class BuildExt(build_ext):
         build_ext.build_extensions(self)
 
 setup(
-    name='python_example',
+    name='cga_cpp',
     version=__version__,
-    author='Sylvain Corlay',
-    author_email='sylvain.corlay@gmail.com',
+    author='Hugo Hadfield',
+    author_email='hadfield.hugo@gmail.com',
     url='https://github.com/pybind/python_example',
     description='A test project using pybind11',
     long_description='',

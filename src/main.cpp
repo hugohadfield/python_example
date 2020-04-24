@@ -1,17 +1,25 @@
 #include <pybind11/pybind11.h>
-
-int add(int i, int j) {
-    return i + j;
-}
+#include <pybind11/numpy.h>
+#include "cga.h"
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(python_example, m) {
+
+py::array basic_op(py::array xs, py::array ys){
+    /* A basic operation */
+    CGA a = CGA::from_np_array(xs);
+    CGA b = CGA::from_np_array(ys);
+    CGA res = ((a|b)*b);
+    CGA res2 = res*res;
+    return res2.to_np_array();
+}
+
+PYBIND11_MODULE(cga_cpp, m) {
     m.doc() = R"pbdoc(
         Pybind11 example plugin
         -----------------------
 
-        .. currentmodule:: python_example
+        .. currentmodule:: cga_cpp
 
         .. autosummary::
            :toctree: _generate
@@ -20,17 +28,7 @@ PYBIND11_MODULE(python_example, m) {
            subtract
     )pbdoc";
 
-    m.def("add", &add, R"pbdoc(
-        Add two numbers
-
-        Some other explanation about the add function.
-    )pbdoc");
-
-    m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-        Subtract two numbers
-
-        Some other explanation about the subtract function.
-    )pbdoc");
+    m.def("basic_op", &basic_op);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
